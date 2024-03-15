@@ -1,13 +1,16 @@
 from django.db import models
 from datetime import datetime, timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth import get_user_model
 
+UserCustomModel = get_user_model()
 
 def upload_to(instance, filename):
     return 'images/{filename}'.format(filename=filename)
 
 
 class Auction(models.Model):
+    user = models.ForeignKey(UserCustomModel, on_delete=models.CASCADE, related_name='auctions' )
     description = models.TextField()
     starting_price = models.DecimalField(max_digits=5, decimal_places=2)
     auction_duration = models.PositiveIntegerField(
