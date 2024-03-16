@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from .models import Auction
 
 
@@ -9,3 +10,11 @@ class AuctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = '__all__'
+
+    def validate(self, validated_data):
+        user = self.context['request'].user
+        if Auction.objects.filter(user=user).count() > 3:
+            raise ValidationError(
+                "Sorry, but you can not have more than three auctions"
+            )
+        return validated_data
