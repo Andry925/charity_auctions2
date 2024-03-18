@@ -1,3 +1,4 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
@@ -23,3 +24,9 @@ class AuctionDetailView(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = [MultiPartParser, FormParser]
     permissions = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
+
+    def update(self, request, pk=None):
+        instance = self.get_object()
+        if not instance.user == request.user:
+            raise ValidationError({"detail": "You can not edit this auction"})
+        return super().update(request, pk)
