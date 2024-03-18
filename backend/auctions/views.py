@@ -25,8 +25,8 @@ class AuctionDetailView(generics.RetrieveUpdateDestroyAPIView):
     permissions = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
 
-    def update(self, request, pk=None):
+    def update(self, request, *args, **kwargs):
         instance = self.get_object()
         if not instance.user == request.user:
             raise ValidationError({"detail": "You can not edit this auction"})
-        return super().update(request, pk)
+        return super().update(request, *args, **kwargs)
