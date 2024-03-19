@@ -1,9 +1,7 @@
 from django.db import models
 from datetime import datetime, timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth import get_user_model
-
-UserCustomModel = get_user_model()
+from django.conf import settings
 
 
 def upload_to(instance, filename):
@@ -12,7 +10,7 @@ def upload_to(instance, filename):
 
 class Auction(models.Model):
     user = models.ForeignKey(
-        UserCustomModel,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='auctions')
     description = models.TextField()
