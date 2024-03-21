@@ -30,3 +30,14 @@ class AuctionDetailView(generics.RetrieveUpdateDestroyAPIView):
         if not instance.user == request.user:
             raise ValidationError({"detail": "You can not edit this auction"})
         return super().update(request, *args, **kwargs)
+
+
+class AuctionOwnerView(generics.ListAPIView):
+    serializer_class = AuctionSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    permissions = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return Auction.objects.filter(user=current_user)
