@@ -8,5 +8,15 @@ urlpatterns = [
         name='all_auctions'),
     path(
         'particular_auction/<int:pk>/',
+        views.AuctionOwnerDetailView.as_view(),
+        name='create_auction'),
+    path(
+        'my_auctions/',
+        views.AuctionOwnerView.as_view(),
+        name='my_auctions'
+    ),
+    path(
+        "auction_detail/<int:pk>/",
         views.AuctionDetailView.as_view(),
-        name='create_auction')]
+        name='auction_detail'
+    )]
