@@ -1,4 +1,3 @@
-from rest_framework.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
@@ -18,18 +17,23 @@ class AuctionListView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class AuctionDetailView(generics.RetrieveUpdateDestroyAPIView):
+class AuctionDetailView(generics.RetrieveAPIView):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permissions = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if not instance.user == request.user:
-            raise ValidationError({"detail": "You can not edit this auction"})
-        return super().update(request, *args, **kwargs)
+
+class AuctionOwnerDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AuctionSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    permissions = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return Auction.objects.filter(user=current_user)
 
 
 class AuctionOwnerView(generics.ListAPIView):
