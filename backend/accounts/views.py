@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer
+from .models import UserProfile
 
 
 class CreateUserView(APIView):
@@ -45,3 +46,13 @@ class LogoutUserView(APIView):
     def get(self, request, format=None):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class ViewMyProfileView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        my_profile = UserProfile.objects.filter(user=request.user)
+        serializer = UserProfileSerializer(my_profile, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
