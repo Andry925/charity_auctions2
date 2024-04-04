@@ -15,7 +15,7 @@ class AuctionListView(generics.ListCreateAPIView):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
 
@@ -27,14 +27,14 @@ class AuctionDetailView(generics.RetrieveAPIView):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
 
 
 class AuctionOwnerDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
@@ -45,7 +45,7 @@ class AuctionOwnerDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AuctionOwnerView(generics.ListAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
 
