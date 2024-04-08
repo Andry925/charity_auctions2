@@ -18,7 +18,7 @@ class Auction(models.Model):
     auction_duration = models.PositiveIntegerField(
         default=0, validators=[
             MinValueValidator(1), MaxValueValidator(20)])
-    image_url = models.ImageField(upload_to=upload_to, null=True, blank=True)
+    image_url = models.ImageField(upload_to=upload_to, null=True, blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
     expires_at = models.DateTimeField(default=None, null=True, blank=True)
