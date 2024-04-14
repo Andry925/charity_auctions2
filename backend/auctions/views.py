@@ -1,10 +1,12 @@
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from .models import Auction
-from .serializers import AuctionSerializer
+from .serializers import AuctionSerializer, AuctionPerUserSerializer
 
 
 class AuctionCustomPaginator(PageNumberPagination):
@@ -52,3 +54,18 @@ class AuctionOwnerView(generics.ListAPIView):
     def get_queryset(self):
         current_user = self.request.user
         return Auction.objects.filter(user=current_user)
+
+
+class AuctionsPerUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    pagination_class = AuctionCustomPaginator
+
+    def get(self, request):
+        queryset = Auction.objects.raw(
+            "SELECT 1 AS id, username, COUNT(*) as total "
+            "FROM auctions_auction "
+            "JOIN accounts_user ON auctions_auction.user_id = accounts_user.id "
+            "GROUP BY username")
+        serializer = AuctionPerUserSerializer(queryset, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)

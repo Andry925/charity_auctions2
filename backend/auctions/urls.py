@@ -19,4 +19,9 @@ urlpatterns = [
         "auction_detail/<int:pk>/",
         views.AuctionDetailView.as_view(),
         name='auction_detail'
+    ),
+    path(
+        "auctions_per_user",
+        views.AuctionsPerUserView.as_view(),
+        name='auctions_per_user'
     )]
