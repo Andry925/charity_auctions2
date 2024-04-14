@@ -18,3 +18,12 @@ class AuctionSerializer(serializers.ModelSerializer):
                 "Sorry, but you can not have more than three auctions"
             )
         return validated_data
+
+
+class AuctionPerUserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+    total = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Auction
+        fields = ('username', 'total')
