@@ -1,5 +1,6 @@
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions, status
+from rest_framework import filters
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from rest_framework.response import Response
@@ -54,6 +55,17 @@ class AuctionOwnerView(generics.ListAPIView):
     def get_queryset(self):
         current_user = self.request.user
         return Auction.objects.filter(user=current_user)
+
+
+class AuctionFilterView(generics.ListAPIView):
+    search_fields = ["description", "user__username"]
+    filter_backends = [filters.SearchFilter, ]
+    queryset = Auction.objects.all()
+    serializer_class = AuctionSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    pagination_class = AuctionCustomPaginator
 
 
 class AuctionsPerUserView(APIView):
