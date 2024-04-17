@@ -24,4 +24,10 @@ urlpatterns = [
         "auctions_per_user",
         views.AuctionsPerUserView.as_view(),
         name='auctions_per_user'
-    )]
+    ),
+    path(
+        "filter_auction/",
+        views.AuctionFilterView.as_view(),
+        name='filter_auction'
+    ),
+  ]
