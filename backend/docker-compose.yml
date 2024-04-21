@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: ["sh", "./entrypoint.sh"]
+    env_file:
+      - charity_auctions2/new/charity_auctions2/backend/backend/.env
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - my-postgres
+
+  my-postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST= my-postgres
