@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    build: .
+    build: backend
     command: ["sh", "./entrypoint.sh"]
     env_file:
       - charity_auctions2/new/charity_auctions2/backend/backend/.env
