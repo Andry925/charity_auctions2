@@ -2,10 +2,10 @@ version: '3'
 
 services:
   web:
-    build: backend
-    command: ["sh", "./entrypoint.sh"]
+    build: ..
+    command: ["sh", "entrypoint.sh"]
     env_file:
-      - charity_auctions2/new/charity_auctions2/backend/backend/.env
+      - backend/.env
     volumes:
       - .:/app
     ports:
@@ -19,4 +19,4 @@ services:
       - POSTGRES_DB=
       - POSTGRES_USER=
       - POSTGRES_PASSWORD=
-      - POSTGRES_HOST= my-postgres
+      - POSTGRES_HOST=
