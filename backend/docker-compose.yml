@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    build: ..
+    command: ["sh", "entrypoint.sh"]
+    env_file:
+      - backend/.env
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - my-postgres
+
+  my-postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=django
+      - POSTGRES_HOST=my-postgres
