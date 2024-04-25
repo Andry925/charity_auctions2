@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime, timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
+from bid.models import Bid
 
 
 def upload_to(instance, filename):
@@ -13,6 +14,7 @@ class Auction(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='auctions')
+    bids = models.ForeignKey(Bid, on_delete=models.CASCADE, related_name='auction', null=True, blank=True)
     description = models.TextField()
     starting_price = models.DecimalField(max_digits=5, decimal_places=2)
     auction_duration = models.PositiveIntegerField(
