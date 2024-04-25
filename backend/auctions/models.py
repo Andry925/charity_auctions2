@@ -24,6 +24,7 @@ class Auction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
     expires_at = models.DateTimeField(default=None, null=True, blank=True)
+    is_finished = models.BooleanField(default=False, blank=True)
 
     def save(self, *args, **kwargs):
         self.expires_at = self.calculate_expired_at()
