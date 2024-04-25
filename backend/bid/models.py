@@ -7,7 +7,7 @@ class Bid(models.Model):
     bidder = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='bids')
+        related_name='bids', null=True)
     bid_amount = models.DecimalField(
         max_digits=5, decimal_places=2, validators=[
             MinValueValidator(0.1)])
