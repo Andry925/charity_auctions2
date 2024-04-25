@@ -15,7 +15,9 @@ class BidCreateView(APIView):
 
     def post(self, request, pk):
         auction_model = self.validate_auction_bid(request=request, pk=pk)
-        bid_serializer = BidSerializer(data=request.data)
+        bid_serializer = BidSerializer(
+            data=request.data, context={
+                'auction_model': auction_model})
         if bid_serializer.is_valid(raise_exception=True):
             model_object = bid_serializer.save(bidder=request.user)
             auction_model.bids = model_object
