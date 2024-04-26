@@ -6,6 +6,7 @@ from .models import Auction
 class AuctionSerializer(serializers.ModelSerializer):
     image_url = serializers.ImageField(required=False)
     user = serializers.ReadOnlyField(source='user.username')
+    bids = serializers.ReadOnlyField(source='bids.bid_amount')
 
     class Meta:
         model = Auction
