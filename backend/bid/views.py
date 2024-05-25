@@ -20,7 +20,9 @@ class BidCreateView(APIView):
                 'auction_model': auction_model})
         if bid_serializer.is_valid(raise_exception=True):
             model_object = bid_serializer.save(bidder=request.user)
-            auction_model.bids = model_object
+            model_object.auction = auction_model
+            auction_model.current_bid = model_object.bid_amount
+            model_object.save()
             auction_model.save()
 
             return Response(

@@ -2,7 +2,6 @@ from django.db import models
 from datetime import datetime, timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
-from bid.models import Bid
 
 
 def upload_to(instance, filename):
@@ -14,13 +13,17 @@ class Auction(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='auctions')
-    bids = models.ForeignKey(Bid, on_delete=models.CASCADE, related_name='auction', null=True, blank=True)
     description = models.TextField()
     starting_price = models.DecimalField(max_digits=5, decimal_places=2)
     auction_duration = models.PositiveIntegerField(
         default=0, validators=[
             MinValueValidator(1), MaxValueValidator(20)])
-    image_url = models.ImageField(upload_to=upload_to, null=True, blank=True, max_length=255)
+    current_bid = models.IntegerField(default=0, null=True, blank=True)
+    image_url = models.ImageField(
+        upload_to=upload_to,
+        null=True,
+        blank=True,
+        max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
     expires_at = models.DateTimeField(default=None, null=True, blank=True)
