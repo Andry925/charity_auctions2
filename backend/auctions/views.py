@@ -15,7 +15,6 @@ class AuctionCustomPaginator(PageNumberPagination):
 
 
 class AuctionListView(generics.ListCreateAPIView):
-    queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
@@ -25,13 +24,22 @@ class AuctionListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_queryset(self):
+        queryset = Auction.objects.select_related('user')
+        return queryset.prefetch_related(
+            'bids_auction', 'bids_auction__bidder')
+
 
 class AuctionDetailView(generics.RetrieveAPIView):
-    queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
+
+    def get_queryset(self):
+        queryset = Auction.objects.all()
+        return queryset.prefetch_related(
+            'bids_auction', 'bids_auction__bidder')
 
 
 class AuctionOwnerDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -42,7 +50,10 @@ class AuctionOwnerDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         current_user = self.request.user
-        return Auction.objects.filter(user=current_user)
+        return Auction.objects.filter(
+            user=current_user).prefetch_related(
+            'bids_auction',
+            'bids_auction__bidder')
 
 
 class AuctionOwnerView(generics.ListAPIView):
@@ -54,7 +65,10 @@ class AuctionOwnerView(generics.ListAPIView):
 
     def get_queryset(self):
         current_user = self.request.user
-        return Auction.objects.filter(user=current_user)
+        return Auction.objects.filter(
+            user=current_user).prefetch_related(
+            'bids_auction',
+            'bids_auction__bidder')
 
 
 class AuctionFilterView(generics.ListAPIView):
@@ -66,6 +80,11 @@ class AuctionFilterView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
+
+    def get_queryset(self):
+        queryset = Auction.objects.select_related('user')
+        return queryset.prefetch_related(
+            'bids_auction', 'bids_auction__bidder')
 
 
 class AuctionsPerUserView(APIView):
