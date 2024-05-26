@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from bid.serializers import BidSerializer
 from .models import Auction
 
 
 class AuctionSerializer(serializers.ModelSerializer):
+    bids = BidSerializer(read_only=True, many=True, source="bids_auction")
     image_url = serializers.ImageField(required=False)
-    user = serializers.ReadOnlyField(source='user.username')
-    bids = serializers.ReadOnlyField(source='bids.bid_amount')
+    user = serializers.CharField()
 
     class Meta:
         model = Auction

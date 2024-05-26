@@ -30,4 +30,4 @@ urlpatterns = [
         views.AuctionFilterView.as_view(),
         name='filter_auction'
     ),
-  ]
+]
