@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'auctions',
     'bid',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_rest_passwordreset',
 ]
 
 REST_FRAMEWORK = {
@@ -70,7 +71,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates/', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -157,3 +158,13 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+
+# Email Backend Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Replace with your preferred backend
+
+EMAIL_PORT = 587  # Replace with your email port
+EMAIL_USE_TLS = True  # Set to False if your email server doesn't use TLS
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your email host for gmail -> 'smtp.gmail.com'
+EMAIL_HOST_USER = 'rega600b@gmail.com'  # Replace with your email username
+EMAIL_HOST_PASSWORD = 'bxgb eije lifo yeel'  # Replace with your email password
