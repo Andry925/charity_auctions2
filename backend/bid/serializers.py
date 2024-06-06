@@ -2,9 +2,9 @@ from rest_framework import serializers
 from .models import Bid
 
 
-class BidSerializer(serializers.ModelSerializer):
-    bidder = serializers.CharField()
-    auction = serializers.CharField()
+class BidSerializer(serializers.ModelSerializer): 
+    bidder = serializers.CharField(read_only=True)
+    auction = serializers.CharField(read_only=True)
 
     class Meta:
         model = Bid
