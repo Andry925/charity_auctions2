@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Bid
 
 
-class BidSerializer(serializers.ModelSerializer):
+class BidSerializer(serializers.ModelSerializer): 
     bidder = serializers.CharField(read_only=True)
     auction = serializers.CharField(read_only=True)
 
@@ -12,7 +12,7 @@ class BidSerializer(serializers.ModelSerializer):
 
     def validate(self, validated_data):
         start_price = float(self.context.get('auction_model').starting_price)
-        current_bid = float(self.context.get('auction_model').bids.bid_amount)
+        current_bid = float(self.context.get('auction_model').current_bid)
         offered_bid = float(validated_data.get('bid_amount'))
 
         if offered_bid and start_price >= offered_bid:

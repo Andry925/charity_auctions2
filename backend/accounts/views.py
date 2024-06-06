@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
-from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer
+from django.contrib.auth import update_session_auth_hash
+from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer, ResetPasswordEmailSerializer, ChangePasswordSerializer
 from .models import UserProfile
 
 
@@ -56,3 +57,18 @@ class ViewMyProfileView(APIView):
         my_profile = UserProfile.objects.filter(user=request.user)
         serializer = UserProfileSerializer(my_profile, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ResetPasswordView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        user = request.user
+        if serializer.is_valid(raise_exception=True) and user.check_password(serializer.data.get('old_password')):
+            user.set_password(serializer.data.get('new_password'))
+            user.save()
+            update_session_auth_hash(request, user)
+            return Response({"message":"Password changes succesfuly"}, status=status.HTTP_200_OK)
+        return Response({"error":"incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
