@@ -3,7 +3,8 @@ from .models import Bid
 
 
 class BidSerializer(serializers.ModelSerializer):
-    bidder = serializers.CharField(source='bidder.username', read_only=True)
+    bidder = serializers.CharField(read_only=True)
+    auction = serializers.CharField(read_only=True)
 
     class Meta:
         model = Bid
