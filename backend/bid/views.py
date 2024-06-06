@@ -35,7 +35,10 @@ class BidCreateView(APIView):
 
 
 class BidListView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request):
-        auctions = Bid.objects.all()
+        auctions = Bid.objects.all().select_related("bidder")
         serializer = BidSerializer(auctions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
