@@ -9,4 +9,4 @@ urlpatterns = [
     path(
         'all_bids/',
         views.BidListView.as_view(),
-        name='')]
+        name='all_bids')]
