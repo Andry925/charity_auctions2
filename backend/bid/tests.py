@@ -7,29 +7,33 @@ from auctions.models import Auction
 from .models import Bid
 import json
 
+EXTRA_KEYS = ("bid_date", "updated_at")
+
 
 class TestBidAuctionSetup(APITestCase):
 
     def setUp(self) -> None:
-        self.data_from_config = self.parse_test_config_file()
-        print(self.data_from_config)
+        self.initial_cleaned_dict_data = self.parse_test_config_file()
+        self.cleaned_dict_data = self.remove_extra_keys_from_dict(
+            self.initial_cleaned_dict_data)
+        print(self.cleaned_dict_data)
         self.first_user = get_user_model().objects.create_user(
-            **self.data_from_config.get("user_credentials"))
+            **self.cleaned_dict_data.get("user_credentials"))
         self.second_user = get_user_model().objects.create_user(
-            **self.data_from_config.get("second_user_credentials"))
-        self.data_from_config.get("auction_data")["user"] = self.first_user
+            **self.cleaned_dict_data.get("second_user_credentials"))
+        self.cleaned_dict_data.get("auction_data")["user"] = self.first_user
         self.auction = Auction.objects.create(
-            **self.data_from_config.get("auction_data"))
-        self.data_from_config.get("bid_data")["bidder"] = self.second_user
-        self.data_from_config.get("bid_data")["auction"] = self.auction
-        self.bid = Bid.objects.create(**self.data_from_config.get("bid_data"))
+            **self.cleaned_dict_data.get("auction_data"))
+        self.cleaned_dict_data.get("bid_data")["bidder"] = self.second_user
+        self.cleaned_dict_data.get("bid_data")["auction"] = self.auction
+        self.bid = Bid.objects.create(**self.cleaned_dict_data.get("bid_data"))
         self.client.post(
             reverse('login'),
-            data=self.data_from_config.get("user_credentials"),
+            data=self.cleaned_dict_data.get("user_credentials"),
             format='json')
         self.client.post(
             reverse('login'),
-            data=self.data_from_config.get("second_user_credentials"),
+            data=self.cleaned_dict_data.get("second_user_credentials"),
             format='json')
         self.token_first_user = Token.objects.get(user__username='tester123')
         self.token_second_user = Token.objects.get(
@@ -51,6 +55,12 @@ class TestBidAuctionSetup(APITestCase):
 
         return json_data
 
+    @staticmethod
+    def remove_extra_keys_from_dict(dict_data):
+        for key in EXTRA_KEYS:
+            dict_data.pop(key, None)
+        return dict_data
+
 
 class TestBidEndpoints(TestBidAuctionSetup):
 
@@ -61,13 +71,13 @@ class TestBidEndpoints(TestBidAuctionSetup):
         response = self.client.get(reverse('all_bids'), format='json')
         response_data = response.content
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        cleaned_response = TestBidAuctionSetup.remove_extra_keys_from_dict(
+            json.loads(response_data)[0])
         self.assertEqual(
-            json.loads(response_data)[0],
+            cleaned_response,
             {
                 'id': 1,
                 'bidder': 'tester1232@gmail.com',
                 'auction': 'test description',
                 'bid_amount': '15.00',
-                'bid_date': '2024-06-06T18:07:13.794885Z',
-                'updated_at': '2024-06-06T18:07:13.794905Z',
                 'description': None})
