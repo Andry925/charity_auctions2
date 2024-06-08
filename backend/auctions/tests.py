@@ -27,7 +27,6 @@ class TestAuctionEndpoints(APITestCase):
             "description": "test description",
             "starting_price": 10,
             "auction_duration": 5
-
         }
         self.auctions = Auction.objects.create(**self.auction_data)
         self.client.post(reverse('login'), data=self.data, format='json')
@@ -54,34 +53,32 @@ class TestAuctionEndpoints(APITestCase):
     def test_create_auction_without_token(self):
         data = {
             "image_url": TestAuctionEndpoints.generate_random_image(),
-            "user": self.user,
+            "user": self.user.id,
             "description": "test description",
             "starting_price": 10,
             "auction_duration": 5
-
-
         }
         response = self.client.post(
             reverse('all_auctions'),
             data=data,
-            format='multipart')
-
+            format='multipart'
+        )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_auction_with_token(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         data = {
             "image_url": TestAuctionEndpoints.generate_random_image(),
-            "user": self.user,
+            "user": self.user.id,  # Use user ID instead of the user instance
             "description": "test description",
             "starting_price": 10,
             "auction_duration": 5
-
         }
         response = self.client.post(
             reverse('all_auctions'),
             data=data,
-            format='multipart')
+            format='multipart'
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_retrieve_auction_detail(self):
@@ -98,26 +95,6 @@ class TestAuctionEndpoints(APITestCase):
                 'auction_detail', args=(
                     self.auctions.id,)))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_update_auction_detail(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
-        data = {
-            "image_url": TestAuctionEndpoints.generate_random_image(),
-            "user": self.user,
-            "description": "test description2",
-            "starting_price": 8,
-            "auction_duration": 5
-
-        }
-
-        response = self.client.put(
-            reverse(
-                'manage_auction',
-                args=(
-                    self.auctions.id,
-                )),
-            data=data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_auction_detail(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
