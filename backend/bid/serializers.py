@@ -2,13 +2,14 @@ from rest_framework import serializers
 from .models import Bid
 
 
-class BidSerializer(serializers.ModelSerializer): 
+class BidSerializer(serializers.ModelSerializer):
     bidder = serializers.CharField(read_only=True)
     auction = serializers.CharField(read_only=True)
 
     class Meta:
         model = Bid
-        fields = '__all__'
+        fields = ["bidder", "bid_amount","auction","bid_date","updated_at","description"]
+
 
     def validate(self, validated_data):
         start_price = float(self.context.get('auction_model').starting_price)

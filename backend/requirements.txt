@@ -16,3 +16,7 @@ sqlparse==0.4.4
 tomli==2.0.1
 tomlkit==0.12.4
 typing_extensions==4.10.0
+coverage==7.4.4
+django-debug-toolbar==4.3.0
+django-rest-passwordreset==1.4.1
+

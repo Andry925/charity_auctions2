@@ -16,7 +16,8 @@
         "user": 1,
         "description": "test description",
         "starting_price": 10,
-        "auction_duration": 5
+        "auction_duration": 5,
+        "current_bid": 0
     },
 
     "bid_data": {
