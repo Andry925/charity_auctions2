@@ -1,7 +1,6 @@
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions, status
 from rest_framework import filters
-from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,7 +17,6 @@ class AuctionListView(generics.ListCreateAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
 
     def perform_create(self, serializer):
@@ -34,7 +32,6 @@ class AuctionDetailView(generics.RetrieveAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         queryset = Auction.objects.all()
@@ -46,7 +43,6 @@ class AuctionOwnerDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         current_user = self.request.user
@@ -60,7 +56,6 @@ class AuctionOwnerView(generics.ListAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
 
     def get_queryset(self):
@@ -78,7 +73,6 @@ class AuctionFilterView(generics.ListAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
 
     def get_queryset(self):
@@ -89,7 +83,6 @@ class AuctionFilterView(generics.ListAPIView):
 
 class AuctionsPerUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
     pagination_class = AuctionCustomPaginator
 
     def get(self, request):
