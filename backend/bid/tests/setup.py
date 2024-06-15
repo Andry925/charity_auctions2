@@ -1,7 +1,7 @@
 import json
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.test import APITestCase
 from auctions.models import Auction
 from bid.models import Bid
@@ -25,8 +25,7 @@ class TestBidAuctionSetup(APITestCase):
         self.auction.delete()
         self.first_user.delete()
         self.second_user.delete()
-        Token.objects.filter(user__username='testuser123').delete()
-        Token.objects.filter(user__username='testuser1232').delete()
+
 
     def create_users(self):
         self.first_user = get_user_model().objects.create_user(
@@ -51,9 +50,9 @@ class TestBidAuctionSetup(APITestCase):
             reverse('login'),
             data=self.cleaned_dict_data.get("second_user_credentials"),
             format='json')
-        self.token_first_user = Token.objects.get(user__username='tester123')
-        self.token_second_user = Token.objects.get(
-            user__username='tester1232')
+        self.token_first_user = RefreshToken.for_user(self.first_user)
+        self.token_second_user = RefreshToken.for_user(self.second_user)
+
 
     @staticmethod
     def parse_test_config_file():

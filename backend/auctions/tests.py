@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 from rest_framework import status
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.conf import settings
 from .models import Auction
 
@@ -30,14 +30,15 @@ class TestAuctionEndpoints(APITestCase):
         }
         self.auctions = Auction.objects.create(**self.auction_data)
         self.client.post(reverse('login'), data=self.data, format='json')
-        self.token = Token.objects.get(user__username='testuser1')
+        self.token = RefreshToken.for_user(self.user)
 
     def test_retrieve_all_auctions_without_token(self):
         response = self.client.get(reverse('all_auctions'), format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_retrieve_all_auctions_with_token(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token.access_token}')
         response = self.client.get(reverse('all_auctions'), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -66,7 +67,8 @@ class TestAuctionEndpoints(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_auction_with_token(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token.access_token}')
         data = {
             "image_url": TestAuctionEndpoints.generate_random_image(),
             "user": self.user.id,  # Use user ID instead of the user instance
@@ -82,7 +84,8 @@ class TestAuctionEndpoints(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_retrieve_auction_detail(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token.access_token}')
         response = self.client.get(
             reverse(
                 'auction_detail', args=(
@@ -97,7 +100,8 @@ class TestAuctionEndpoints(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_delete_auction_detail(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token.access_token}')
         response = self.client.delete(
             reverse(
                 'manage_auction', args=(
@@ -105,7 +109,8 @@ class TestAuctionEndpoints(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_get_all_user_auctions(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token.access_token}')
         response = self.client.get(reverse('my_auctions'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Auction.objects.count(), 1)

@@ -10,8 +10,7 @@ class TestBidEndpoints(TestBidAuctionSetup):
 
     def test_bids_are_sent(self):
         self.client.credentials(
-            HTTP_AUTHORIZATION='Token ' +
-            self.token_first_user.key)
+            HTTP_AUTHORIZATION=f'Bearer {self.token_first_user.access_token}')
         response = self.client.get(reverse('all_bids'), format='json')
         response_data = response.content
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -26,7 +25,8 @@ class TestBidEndpoints(TestBidAuctionSetup):
                 'description': None})
 
     def test_bid_is_created(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_second_user.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token_second_user.access_token}')
         self.cleaned_dict_data.get("bid_data")["bid_amount"] = 20
         response = self.client.post(reverse('manage_bids', args=[self.auction.id]), data=self.cleaned_dict_data.get("bid_data"))
         current_price = float(json.loads(response.content)["bid_amount"])
@@ -34,7 +34,8 @@ class TestBidEndpoints(TestBidAuctionSetup):
         self.assertEqual(current_price, 20.00)
 
     def test_try_bid_own_auction(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_first_user.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token_first_user.access_token}')
         self.cleaned_dict_data.get("bid_data")["bid_amount"] = 20
         with self.assertRaises(ValueError) as e:
             self.client.post(reverse('manage_bids', args=[self.auction.id]),
@@ -43,7 +44,8 @@ class TestBidEndpoints(TestBidAuctionSetup):
 
 
     def test_try_bid_less_price(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_second_user.key)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token_second_user.access_token}')
         self.cleaned_dict_data.get("bid_data")["bid_amount"] = 10
         response = self.client.post(reverse('manage_bids', args=[self.auction.id]),
                                     data=self.cleaned_dict_data.get("bid_data"))
