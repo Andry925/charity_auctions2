@@ -1,9 +1,9 @@
 from django.urls import reverse
-from rest_framework import status
 from django.core.exceptions import ValidationError
-from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token
+from rest_framework import status
+from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class TestAuthentication(APITestCase):
@@ -50,8 +50,11 @@ class TestAuthentication(APITestCase):
             self.assertEqual("Such user does not exist", e.exception[0])
 
     def test_logout(self):
-        self.client.post(reverse('login'), data=self.data, format='json')
-        self.token = Token.objects.get(user__username="someone1")
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
-        response = self.client.get(reverse('logout'), format='json')
+        response = self.client.post(
+            reverse('login'), data=self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.token = RefreshToken.for_user(self.user)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Bearer {self.token.access_token}')
+        response = self.client.post(reverse('logout'), format='json')
+        self.assertEqual(response.status_code, status.HTTP_205_RESET_CONTENT)

@@ -1,17 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.authentication import TokenAuthentication
 from rest_framework import permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics
 from auctions.models import Auction
 from .models import Bid
 from .serializers import BidSerializer
 
 
 class BidCreateView(APIView):
-    authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
@@ -37,7 +33,6 @@ class BidCreateView(APIView):
 
 
 class BidListView(APIView):
-    authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
