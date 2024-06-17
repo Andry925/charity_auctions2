@@ -1,41 +1,49 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import permissions, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import permissions
+from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 from auctions.models import Auction
 from .models import Bid
 from .serializers import BidSerializer
 
 
-class BidCreateView(APIView):
+class BidCustomPaginator(PageNumberPagination):
+    page_size = 5
+
+
+class BidCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = BidSerializer
+    pagination_class = BidCustomPaginator
 
-    def post(self, request, pk):
-        auction_model = self.validate_auction_bid(request=request, pk=pk)
-        bid_serializer = BidSerializer(
-            data=request.data, context={
-                'auction_model': auction_model})
-        if bid_serializer.is_valid(raise_exception=True):
-            model_object = bid_serializer.save(
-                bidder=request.user, auction=auction_model)
-            auction_model.current_bid = model_object.bid_amount
-            auction_model.save()
+    def perform_create(self, serializer):
+        bidded_auction = self.validated_auction_bid(
+            request=self.request, pk=self.kwargs["pk"])
+        serializer.save(bidder=self.request.user, auction=bidded_auction)
+        bidded_auction.current_bid = serializer.validated_data["bid_amount"]
+        bidded_auction.save()
 
-            return Response(
-                bid_serializer.data,
-                status=status.HTTP_201_CREATED)
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"bidded_auction": self.validated_auction_bid(
+            request=self.request, pk=self.kwargs["pk"])})
+        return context
 
-    def validate_auction_bid(self, request, pk):
+    def validated_auction_bid(self, request, pk):
         auction = get_object_or_404(Auction, pk=pk)
         if auction.user == request.user:
             raise ValueError("You can not bid your own auctions")
         return auction
 
 
-class BidListView(APIView):
+class ListBidView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = BidSerializer
+    pagination_class = BidCustomPaginator
 
-    def get(self, request):
-        auctions = Bid.objects.all().select_related("bidder", "auction")
-        serializer = BidSerializer(auctions, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        queryset = Bid.objects.filter(
+            bidder=self.request.user).select_related(
+            "bidder", "auction")
+        return queryset
+
