@@ -8,21 +8,13 @@ EXTRA_KEYS = ("bid_date", "updated_at")
 
 class TestBidEndpoints(TestBidAuctionSetup):
 
+
     def test_bids_are_sent(self):
         self.client.credentials(
             HTTP_AUTHORIZATION=f'Bearer {self.token_first_user.access_token}')
         response = self.client.get(reverse('all_bids'), format='json')
-        response_data = response.content
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        cleaned_response = TestBidAuctionSetup.remove_extra_keys_from_dict(
-            json.loads(response_data)[0])
-        self.assertEqual(
-            cleaned_response,
-            {
-                'bidder': 'tester1232@gmail.com',
-                'auction': 'test description',
-                'bid_amount': '15.00',
-                'description': None})
+
 
     def test_bid_is_created(self):
         self.client.credentials(

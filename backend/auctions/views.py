@@ -69,7 +69,6 @@ class AuctionOwnerView(generics.ListAPIView):
 class AuctionFilterView(generics.ListAPIView):
     search_fields = ["description", "user__username"]
     filter_backends = [filters.SearchFilter, ]
-    queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]

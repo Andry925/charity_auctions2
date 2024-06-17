@@ -9,7 +9,7 @@ from .models import Bid
 @receiver(post_save, sender=Bid)
 def notify_owner_of_the_new_bid(sender, instance, created, **kwargs):
     if created:
-        full_link = f"http://localhost:8000{reverse('all_bids')}"
+        full_link = f"http://localhost:8000{reverse('all_auctions')}"
         auction_owner_email = instance.auction.user.email
         information_message = f"Hi, user {instance.bidder} bids your {instance.auction} with bid {instance.bid_amount}"
         html_message = f"""Hi, user {instance.bidder} bids your {instance.auction} with bid {instance.bid_amount}<p>View all bids here: <a href="{full_link}">{full_link}</a></p>
