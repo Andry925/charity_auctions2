@@ -9,7 +9,7 @@ urlpatterns = [
 
     path(
         'all_bids/',
-        views.BidListView.as_view(),
+        views.ListBidView.as_view(),
         name='all_bids')
 
 
