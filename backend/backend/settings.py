@@ -30,6 +30,8 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 # Application definition
 
@@ -42,13 +44,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'accounts',
     'rest_framework.authtoken',
-    'auctions',
-    'bid',
     'debug_toolbar',
     'django_rest_passwordreset',
     'rest_framework_simplejwt.token_blacklist',
+    'channels',
+    'accounts',
+    'auctions',
+    'bid',
+    'websocket_chat',
+
+
 ]
 
 REST_FRAMEWORK = {
