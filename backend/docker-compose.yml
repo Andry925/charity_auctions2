@@ -12,11 +12,15 @@ services:
       - "8000:8000"
     depends_on:
       - my-postgres
+      - redis-server
 
   my-postgres:
-    image: postgres
+    image: postgres:14.8-alpine3.18
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=django
       - POSTGRES_HOST=my-postgres
+
+  redis-server:
+    image: redis:7.2.5-alpine3.20
