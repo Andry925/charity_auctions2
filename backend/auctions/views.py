@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions, status
 from rest_framework import filters
@@ -23,9 +24,15 @@ class AuctionListView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        queryset = Auction.objects.select_related('user')
-        return queryset.prefetch_related(
-            'bids_auction', 'bids_auction__bidder')
+        auction_cache_name = "auction_cache"
+        auction_cache = cache.get(auction_cache_name)
+        if auction_cache:
+            queryset = auction_cache
+        else:
+            queryset = Auction.objects.select_related('user').prefetch_related(
+                'bids_auction', 'bids_auction__bidder')
+            cache.set(auction_cache_name, queryset, 120)
+        return queryset
 
 
 class AuctionDetailView(generics.RetrieveAPIView):
