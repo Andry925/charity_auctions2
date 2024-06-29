@@ -1,3 +1,5 @@
+from django.core.cache import cache
+from django.conf import settings
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions, status
 from rest_framework import filters
@@ -16,16 +18,24 @@ class AuctionCustomPaginator(PageNumberPagination):
 class AuctionListView(generics.ListCreateAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     pagination_class = AuctionCustomPaginator
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        queryset = Auction.objects.select_related('user')
-        return queryset.prefetch_related(
-            'bids_auction', 'bids_auction__bidder')
+        auction_cache = cache.get(settings.AUCTION_CACHE_NAME)
+        if auction_cache:
+            queryset = auction_cache
+        else:
+            queryset = Auction.objects.select_related('user').prefetch_related(
+                'bids_auction', 'bids_auction__bidder')
+            cache.set(
+                settings.AUCTION_CACHE_NAME,
+                queryset,
+                settings.CACHE_TIME_IN_SECONDS)
+        return queryset
 
 
 class AuctionDetailView(generics.RetrieveAPIView):
@@ -71,13 +81,20 @@ class AuctionFilterView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter, ]
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     pagination_class = AuctionCustomPaginator
 
     def get_queryset(self):
-        queryset = Auction.objects.select_related('user')
-        return queryset.prefetch_related(
-            'bids_auction', 'bids_auction__bidder')
+        filter_auction_cache = cache.get(settings.FILTER_AUCTION_CACHE_NAME)
+        if filter_auction_cache:
+            queryset = filter_auction_cache
+        else:
+            queryset = Auction.objects.select_related('user').prefetch_related(
+                'bids_auction', 'bids_auction__bidder')
+            cache.set(settings.FILTER_AUCTION_CACHE_NAME, queryset,
+                      settings.CACHE_TIME_IN_SECONDS)
+
+        return queryset
 
 
 class AuctionsPerUserView(APIView):

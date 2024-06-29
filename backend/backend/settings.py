@@ -106,6 +106,14 @@ CHANNEL_LAYERS = {
     },
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -160,6 +168,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUCTION_CACHE_NAME = "auction_cache"
+CACHE_TIME_IN_SECONDS = 60*15
+FILTER_AUCTION_CACHE_NAME = "filter_auction_cache"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
