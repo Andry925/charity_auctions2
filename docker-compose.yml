@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - static:/static
+    env_file:
+      - backend/backend/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - my-postgres
+      - redis-server
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - frontend:/app/build
+    restart: always
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - static:/static
+      - frontend:/var/www/frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+      - redis-server
+  my-postgres:
+    image: postgres:14.8-alpine3.18
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=django
+
+
+  redis-server:
+    image: redis:7.2.5-alpine3.20
+    ports:
+      - "6379:6379"
+volumes:
+  static:
+  frontend:
+
