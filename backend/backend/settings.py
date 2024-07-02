@@ -117,10 +117,12 @@ CHANNEL_LAYERS = {
     },
 }
 
+REDIS_LOCATION = f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}"
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": REDIS_LOCATION,
     }
 }
 
