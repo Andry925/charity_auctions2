@@ -18,7 +18,7 @@ class AuctionCustomPaginator(PageNumberPagination):
 class AuctionListView(generics.ListCreateAPIView):
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     pagination_class = AuctionCustomPaginator
 
     def perform_create(self, serializer):
@@ -81,7 +81,7 @@ class AuctionFilterView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter, ]
     serializer_class = AuctionSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     pagination_class = AuctionCustomPaginator
 
     def get_queryset(self):
