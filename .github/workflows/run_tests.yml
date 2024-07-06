@@ -3,11 +3,8 @@ name: Automated tests
 on:
   pull_request:
     branches: [ "master" ]
-  push:
-    branches: [ "master" ]
 
 jobs:
-
   test:
     runs-on: ubuntu-20.04
 
@@ -43,16 +40,16 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r backend/requirements.txt
 
       - name: Run Tests
         run: |
-          python3 backend/manage.py test backend
+          python3 manage.py test backend
         env:
-          DATABASE_NAME: postgres
-          DATABASE_USER: postgres
-          DATABASE_PASS: postgres
-          DATABASE_HOST: postgres
-          DATABASE_PORT: 5432
-          REDIS_HOST: redis-server
+          NAME: postgres
+          USER: postgres
+          PASSWORD: postgres
+          HOST: postgres
+          PORT: 5432
+          REDIS_HOST: redis
           REDIS_PORT: 6379
