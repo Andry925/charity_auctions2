@@ -54,7 +54,7 @@ class TestAuctionEndpoints(APITestCase):
     def test_create_auction_without_token(self):
         data = {
             "image_url": TestAuctionEndpoints.generate_random_image(),
-            "user": self.user.id,
+            "user": self.user,
             "description": "test description",
             "starting_price": 10,
             "auction_duration": 5
