@@ -23,8 +23,8 @@ class AuctionSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        updated_data = validated_data['user'] = user
-        auction = Auction.objects.create(**updated_data)
+        validated_data['user'] = user
+        auction = Auction.objects.create(**validated_data)
         return auction
 
 

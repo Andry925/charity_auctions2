@@ -22,9 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
-    path('', include('bid.urls')),
-    path('', include('auctions.urls')),
-    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
-    path('conversations/', include('websocket_chat.urls')),
+    path('api/bids/', include('bid.urls')),
+    path('api/auctions/', include('auctions.urls')),
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('api/conversations/', include('websocket_chat.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

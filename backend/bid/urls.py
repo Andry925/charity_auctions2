@@ -3,12 +3,12 @@ from . import views
 
 urlpatterns = [
     path(
-        'create_bid/<int:pk>/',
+        'new-bid/<int:pk>',
         views.BidCreateView.as_view(),
         name='manage_bids'),
 
     path(
-        'all_bids/',
+        'all-bids/',
         views.ListBidView.as_view(),
         name='all_bids')
 

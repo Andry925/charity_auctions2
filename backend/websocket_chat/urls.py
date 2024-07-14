@@ -3,14 +3,14 @@ from . import views
 
 urlpatterns = [
     path(
-        'start/',
+        'new-conversation',
         views.CreateConversation.as_view(),
         name='start_conversation'),
     path(
-        '<int:pk>/',
+        'particular-conversation/<int:pk>',
         views.ConversationDetail.as_view(),
         name='detail_conversation'),
     path(
-        '',
+        'my-conversations',
         views.ListConversations.as_view(),
         name='my_conversations')]
