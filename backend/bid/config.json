@@ -1,0 +1,28 @@
+{"user_credentials": {
+        "username": "tester123",
+        "email": "tester123@gmail.com",
+        "password": "some_password_test"
+    },
+
+    "second_user_credentials": {
+        "username": "tester1232",
+        "email": "tester1232@gmail.com",
+        "password": "some_password_test2"
+
+    },
+
+    "auction_data": {
+        "image_url": "",
+        "user": 1,
+        "description": "test description",
+        "starting_price": 10,
+        "auction_duration": 5,
+        "current_bid": 0
+    },
+
+    "bid_data": {
+        "bidder": 2,
+        "bid_amount": 15,
+        "auction": 1
+    }
+}
