@@ -7,7 +7,7 @@ from .models import Auction
 class AuctionSerializer(serializers.ModelSerializer):
     bids = BidSerializer(read_only=True, many=True, source="bids_auction")
     image_url = serializers.ImageField(required=False)
-    user = serializers.CharField()
+    user = serializers.CharField(source="user.username", read_only=True)
 
     class Meta:
         model = Auction
@@ -20,6 +20,12 @@ class AuctionSerializer(serializers.ModelSerializer):
                 "Sorry, but you can not have more than three auctions"
             )
         return validated_data
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        updated_data = validated_data['user'] = user
+        auction = Auction.objects.create(**updated_data)
+        return auction
 
 
 class AuctionPerUserSerializer(serializers.ModelSerializer):
