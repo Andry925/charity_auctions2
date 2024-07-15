@@ -24,7 +24,7 @@ jobs:
         ports:
           - 5432:5432
 
-      redis:
+      redis-server:
         image: redis
         options: >-
           --health-cmd "redis-cli ping"
@@ -52,5 +52,5 @@ jobs:
           DATABASE_PASS: django
           DATABASE_HOST: postgres
           DATABASE_PORT: 5432
-          REDIS_HOST: redis
+          REDIS_HOST: redis-server
           REDIS_PORT: 6379

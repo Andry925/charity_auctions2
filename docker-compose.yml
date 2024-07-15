@@ -12,7 +12,7 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
-      - redis
+      - redis-server
     restart: always
 
   frontend:
@@ -32,7 +32,7 @@ services:
     depends_on:
       - backend
       - frontend
-      - redis
+      - redis-server
   postgres:
     image: postgres:14.8-alpine3.18
     environment:
@@ -41,7 +41,7 @@ services:
       - POSTGRES_PASSWORD=django
 
 
-  redis:
+  redis-server:
     image: redis:7.2.5-alpine3.20
 
   celery:
@@ -52,7 +52,7 @@ services:
     volumes:
       - ./backend:/usr/src/app/
     depends_on:
-      - redis
+      - redis-server
       - backend
 
 volumes:
