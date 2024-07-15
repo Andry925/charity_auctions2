@@ -74,7 +74,7 @@ class ConversationTests(APITestCase):
 
     @staticmethod
     def parse_test_config_file():
-        with open("websocket_chat/tests/config.json", encoding='utf-8') as config_file:
+        with open("backend/websocket_chat/tests/config.json", encoding='utf-8') as config_file:
             json_data = json.load(config_file)
 
         return json_data
