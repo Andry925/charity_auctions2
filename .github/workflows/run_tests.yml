@@ -9,6 +9,8 @@ jobs:
   test:
     runs-on: ubuntu-20.04
 
+    container: python:3.10
+
     services:
       postgres:
         image: postgres
@@ -21,8 +23,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-        depends_on:
-          redis
 
       redis:
         image: redis:7.2.5-alpine3.20
@@ -31,8 +31,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 6379:6379
+  
 
     steps:
       - name: Check out repository code
