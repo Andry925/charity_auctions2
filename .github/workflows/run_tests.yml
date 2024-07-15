@@ -25,13 +25,16 @@ jobs:
           - 5432:5432
 
       redis-server:
-        image: redis
+        image: redis:7.2.5-alpine3.20
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-  
+        ports:
+          - 6379:6379
+
+
 
     steps:
       - name: Check out repository code
@@ -49,7 +52,7 @@ jobs:
           DATABASE_NAME: postgres
           DATABASE_USER: postgres
           DATABASE_PASS: django
-          DATABASE_HOST: postgres
+          DATABASE_HOST: localhost
           DATABASE_PORT: 5432
-          REDIS_HOST: redis-server
+          REDIS_HOST: localhost
           REDIS_PORT: 6379
