@@ -12,7 +12,7 @@ jobs:
     container: python:3.10
 
     services:
-      postgres:
+      my-postgres:
         image: postgres
         env:
           POSTGRES_PASSWORD: postgres
@@ -24,7 +24,7 @@ jobs:
         ports:
           - 5432:5432
 
-      redis:
+      redis-server:
         image: redis
         options: >-
           --health-cmd "redis-cli ping"
@@ -50,7 +50,7 @@ jobs:
           DATABASE_NAME: postgres
           DATABASE_USER: postgres
           DATABASE_PASS: postgres
-          DATABASE_HOST: postgres
+          DATABASE_HOST: my-postgres
           DATABASE_PORT: 5432
           REDIS_HOST: redis-server
           REDIS_PORT: 6379
