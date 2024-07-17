@@ -11,8 +11,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - my-postgres
-      - redis-server
+      - postgres
+      - redis
     restart: always
 
   frontend:
@@ -32,8 +32,8 @@ services:
     depends_on:
       - backend
       - frontend
-      - redis-server
-  my-postgres:
+      - redis
+  postgres:
     image: postgres:14.8-alpine3.18
     environment:
       - POSTGRES_DB=postgres
@@ -41,7 +41,7 @@ services:
       - POSTGRES_PASSWORD=django
 
 
-  redis-server:
+  redis:
     image: redis:7.2.5-alpine3.20
 
   celery:
@@ -52,7 +52,7 @@ services:
     volumes:
       - ./backend:/usr/src/app/
     depends_on:
-      - redis-server
+      - redis
       - backend
 
 volumes:
