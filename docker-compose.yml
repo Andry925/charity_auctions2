@@ -11,7 +11,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - my-postgres
+      - postgres
       - redis-server
     restart: always
 
@@ -33,7 +33,7 @@ services:
       - backend
       - frontend
       - redis-server
-  my-postgres:
+  postgres:
     image: postgres:14.8-alpine3.18
     environment:
       - POSTGRES_DB=postgres

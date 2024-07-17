@@ -56,7 +56,7 @@ class TestBidAuctionSetup(APITestCase):
 
     @staticmethod
     def parse_test_config_file():
-        with open("bid/config.json", encoding='utf-8') as config_file:
+        with open("backend/bid/tests/config.json", encoding='utf-8') as config_file:
             json_data = json.load(config_file)
 
         return json_data
