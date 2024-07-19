@@ -1,0 +1,172 @@
+.container {
+    display: flex;
+    width: 791px;
+    height: 436px;
+    border: 4px solid white;
+    border-radius: 10px;
+    flex-direction: column;
+    margin: auto;
+    background: #FFE06A;
+    padding-bottom: 30px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.text {
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.underline {
+    width: 38px;
+    height: 3px;
+    background: black;
+    border-radius: 3px;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 36px;
+}
+
+.account-info {
+    width: 305px;
+    height: 282px;
+}
+
+.info-caption {
+    font-weight: 600;
+    margin-left: 130px;
+}
+
+.name-info {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 16px;
+    width: 205px;
+    height: 35px;
+    margin-left: 52px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background: #FFC700;
+    color: white;
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.email-info {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 16px;
+    width: 205px;
+    height: 35px;
+    margin-left: 52px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background: #FFC700;
+    color: white;
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.account-lots {
+    width: 468px;
+    height: 280px;
+}
+
+.lot-caption {
+    font-weight: 600;
+    margin-left: 157px;
+}
+
+.lot {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    border: 3px solid transparent;
+    cursor: pointer;
+
+    width: 114px;
+    height: 164px;
+    background: white;
+    border-radius: 10px;
+    margin-right: 34px;
+}
+
+.lot:hover {
+    border: 3px solid #84ADFF;
+}
+
+.lot-edit {
+    display: flex;
+}
+
+.edit {
+    width: 116px;
+    height: 22px;
+    margin-top: 8px;
+    background: #FFC700;
+    border: 3px solid transparent;
+    border-radius: 5px;
+
+    font-family: 'Montserrat';
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+}
+
+.edit:hover {
+    border: 3px solid white;
+    color: black;
+}
+
+.lot-photo {
+    width: 98px;
+    height: 74px;
+    background: #FFC700;
+    border-radius: 10px;
+    margin: 8px;
+}
+
+.lot-descr {
+    margin: 8px;
+    width: 114px;
+    height: 33px;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.lot-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 114px;
+    height: 33px;
+
+    color: #FF7500;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0px;
+}
+

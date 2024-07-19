@@ -1,0 +1,154 @@
+.search-container {
+    height: 119px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-box {    
+    width: 461px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: white;
+    border-radius: 10px;
+}
+
+.search-box-text {
+    direction: rtl;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+}
+
+::placeholder {
+    color: #A3C3D7;
+}
+
+.search {
+    margin: 15px;
+    cursor: pointer;
+}
+
+.filter-box {
+    width: 50px;
+    height: 50px;
+    border: transparent;
+    border-radius: 10px;
+    background-color: #FFE06A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.filter-window {
+    position: absolute;
+    width: 170px;
+    height: 530px;
+    background: #FFE06A;
+    border: 4px solid white;
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.first-filter {
+    position: relative;
+    height: 375px;
+}
+
+.filter-categories-caption {
+    height: 20px;
+    background-color: #FFE06A;
+    border: 4px solid white;
+    border-radius: 10px;
+    margin-top: -5px;
+
+    font-size: 12px;
+}
+
+.filter-categories-caption p {
+    display: flex;
+    align-self: start;
+    margin: 3px 15px;
+    
+    font-weight: 700;
+}
+
+.filter-categories {
+    display: block;
+
+}
+
+.filter-categories li {
+    text-align: start;
+    font-size: 10px;
+    padding-bottom: 16px;
+}
+
+.filter-price-caption {
+    height: 20px;
+    background-color: #FFE06A;
+    border: 4px solid white;
+    border-radius: 10px;
+}
+
+.filter-price-caption p {
+    display: flex;
+    align-self: start;
+    margin: 3px 15px;
+    
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.second-filter {
+    height: 110px; 
+}
+
+.slider-price-value {
+    margin-left: 40px;
+    text-align: start;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.slider {
+    width: 105px;
+    display: flex;
+    align-items: center;
+    margin-left: 35px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.use-filter {
+    background: #84ADFF;
+    width: 105px;
+    height: 25px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 35px;
+
+    font-family: 'Montserrat';
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.use-filter:hover {
+    background: #C7D8FB;
+    border: 3px solid #84ADFF;
+    
+    color: black;
+}

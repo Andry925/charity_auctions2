@@ -1,0 +1,65 @@
+.footer {
+    width: 100%;
+    height: 138px; /*238 px in full version*/
+    background: #FFE06A;
+    margin-top: 220px;
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.media-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.media {
+    display: flex;
+    margin: 30px 20px 0px 20px;
+}
+
+.facebook, .insta {
+    margin-right: 17px;
+    cursor: pointer;
+}
+
+.copyright {
+    font-weight: 600;
+    display: flex;
+}
+
+.company-name-logo {
+    margin: 30px 40px 0px 20px;
+}
+
+/* Try to fix later */
+
+/* .info-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    list-style-type: none;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 30px -40px 30px -40px;
+}
+
+.first-item {
+    display: block;
+    text-align: start;
+}
+
+.first-item, .second-item {
+    flex: 1;
+}
+
+.second-item {
+    text-align: center;
+} */
+
+
+
+

@@ -1,0 +1,49 @@
+.actual-collections-container {
+    height: 393px;
+}
+
+.actual-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 201px;
+    height: 30px;
+    background: #FFE06A;
+    border-radius: 10px;
+    border: 4px solid white;
+    margin-left: 46px;
+
+    font-weight: 700;
+}
+
+.collection-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 48px;
+    margin-left: 46px;
+
+    cursor: pointer;
+}
+
+.collection-buttons p {
+    font-family: 'Montserrat';
+    font-weight: 700;
+}
+
+.collection-buttons button {
+    width: 215px;
+    height: 215px;
+    margin-right: 45px;
+    background: #FFE06A;
+    border-radius: 10px;
+    border: 4px solid white;
+}
+
+.collection-buttons button:hover {
+    background: #C7D8FB;
+    border: 4px solid #84ADFF;
+    
+    color: black;
+}
+

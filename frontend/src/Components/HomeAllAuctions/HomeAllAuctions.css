@@ -1,0 +1,101 @@
+.home-first-container {
+    height: 400px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 102px;
+}
+
+.article-container {
+    display: block;
+    margin: 0px 28px 8px 100px;
+}
+
+.text-charity {
+    margin-top: 10px;
+    font-size: 32px;
+    color: #84ADFF;
+    font-weight: 700;    
+    font-size: 32px;
+    margin-right: 180px;
+}
+
+.flag {
+    margin-left: 10px;
+}
+
+.text-register {
+    font-size: 36px;
+    font-weight: 700;
+    margin-left: 170px;
+    margin-right: 500px;
+}
+
+.text-buy {
+    font-size: 36px;
+    color: #F9C500;
+    font-weight: 700;
+    margin-left: 270px;
+    margin-right: 400px;
+}
+
+.text-help {
+    font-size: 36px;
+    font-weight: 700;
+    margin-left: 400px;
+}
+
+.all-auctions {
+    background: #84ADFF;
+    width: 217px;
+    height: 54px;
+    border-radius: 10px;
+    border: none;
+    margin-left: 550px;
+    margin-right: 100px;
+
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Montserrat';
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.all-auctions:hover {
+    background: #C7D8FB;
+    border: 3px solid #84ADFF;
+    
+    color: black;
+}
+
+.logo-name-container {
+    margin: 0px 30px 10px 10px;
+}
+
+.logoName {
+    width: 388px;
+    height: 429px;
+}
+
+
+.auctions-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.auction-item {
+  margin: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 200px;
+}
+
+.auction-item img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
