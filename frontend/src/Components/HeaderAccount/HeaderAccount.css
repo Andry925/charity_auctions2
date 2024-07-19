@@ -1,0 +1,129 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFE06A;
+}
+
+.company-img {
+    margin: 13px 0px 10px 40px;
+}
+
+.logo {
+    margin-right: 18px;
+}
+
+.logo, .company{
+    cursor: pointer;
+}
+
+ul {
+    display: flex;
+    margin: 13px 25px 10px 0px;
+    list-style-type: none;
+    text-align: center;
+}
+
+ul li {
+    margin-right: 18px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* .live {
+    color: #FF3701;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.live:hover {
+    color: white;
+}
+
+.top100 {
+    cursor: pointer;
+}
+
+.top100:hover {
+    color: #84ADFF;
+} */
+
+.open-collection {
+    background: #84ADFF;
+    width: 149px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+
+    font-family: 'Montserrat';
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.open-collection:hover {
+    background: #C7D8FB;
+    border: 3px solid #84ADFF;
+    
+    color: black;
+}
+
+.sell {
+    background: #84ADFF;
+    width: 149px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+
+    font-family: 'Montserrat';
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.sell:hover {
+    background: #C7D8FB;
+    border: 3px solid #84ADFF;
+    
+    color: black;
+}
+
+.cabinet {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.cabinet:hover {
+    color: #84ADFF;
+}
+
+.cabinet:visited {
+    color: black;
+}
+
+.cabinet:visited:hover {
+    color: #84ADFF;
+}
+
+.logout {
+    cursor: pointer;
+    margin-top: 11.5px;
+    text-decoration: none;
+}
+
+.logout:hover {
+    color: #84ADFF;
+}
+
+.logout:visited {
+    color: black;
+}
+
+.logout:visited:hover {
+    color: #84ADFF;
+}
