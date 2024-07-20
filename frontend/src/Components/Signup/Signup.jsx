@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import user from "../Assets/user.svg";
 import envelope from "../Assets/envelope.svg";
 import lock from "../Assets/lock.svg";
 import './Signup.css'
+
+axios.defaults.withCredentials = true;
 
 const Signup = ({ setCurrentUser }) => {
   const navigate = useNavigate();
@@ -12,7 +15,21 @@ const Signup = ({ setCurrentUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const Registration = () => {
+  const Registration = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/registration", {
+        email,
+        username,
+        password,
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error("Failed registration", error);
+    }
+
     console.log('Registration function called');
   };
 
