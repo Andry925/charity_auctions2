@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import envelope from "../Assets/envelope.svg";
 import lock from "../Assets/lock.svg";
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +10,23 @@ const Login = ({ setCurrentUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('Login function called');
+  const handleLogin = async () => {
+    try {
+        const response = await axios.post("http://127.0.0.1:8000/api/login", {
+            email,
+            password
+
+        });
+        if (response.status === 200) {
+            localStorage.setItem('accessToken', response.data.tokens.access)
+            localStorage.setItem('refreshToken', response.data.tokens.refresh)
+            navigate('/home-acc')
+
+        }
+    }
+    catch (error) {
+        console.error("Failed login")
+    }
   }
 
   return (

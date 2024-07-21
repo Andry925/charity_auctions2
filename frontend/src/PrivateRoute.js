@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ element, redirectTo = '/login' }) => {
 
-  const isAuthenticated = localStorage.getItem('sessionId') !== null;
+  const isAuthenticated = localStorage.getItem('accessToken') !== null;
 
   return isAuthenticated ? (
 
