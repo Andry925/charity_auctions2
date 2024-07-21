@@ -30,21 +30,19 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOW_ALL_ORIGINS = True
-
-
-# Application definition
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost",
-    "http://0.0.0.0"
-
+    "http://0.0.0.0",
+    "http://127.0.0.1:80",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-
 
 INSTALLED_APPS = [
     'daphne',
@@ -65,14 +63,7 @@ INSTALLED_APPS = [
     'auctions',
     'bid',
     'websocket_chat',
-
-
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 1
-}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -85,6 +76,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1
+}
+
 
 ROOT_URLCONF = 'backend.urls'
 
