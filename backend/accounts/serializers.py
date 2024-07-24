@@ -46,10 +46,11 @@ class LoginSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
+    email = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = UserProfile
-        fields = ('user', 'created_at')
+        fields = ('user', 'email')
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
